@@ -133,7 +133,6 @@ Scripts/
 include/
 pyvenv.cfg
 share/
-db/
 
 # Spyder project settings
 .spyderproject
