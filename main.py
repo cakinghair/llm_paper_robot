@@ -42,7 +42,7 @@ else:
                 print(f"Collecting data via PyAlex. {i} results completed.")
                 i += 1
     print("Vector store saved.")
-retriever = vector_db.as_retriever(search_kwargs={"k":5})
+retriever = vector_db.as_retriever(search_kwargs={"k":3})
 #
 
 # Chat generation model
@@ -50,19 +50,19 @@ model_path = hf_hub_download(repo_id="taide/Llama3-TAIDE-LX-8B-Chat-Alpha1-4bit"
                              filename="taide-8b-a.3-q4_k_m.gguf")
 llm = LlamaCpp(
     model_path=model_path,
-    n_ctx=8192,
-    max_tokens=512,
+    n_ctx=4096,
+    max_tokens=256,
     f16_kv=True,
     verbose=False,
     n_gpu_layers=-1,
-    temperature=0.1,
-    top_p=0.7,
+    temperature=0.5,
+    top_p=0.75,
     callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),)
 #
 
 few_shot_prompt = """
 你是一位論文解析專家，請為以下文章，列出原文標題(Title)，並根據摘要(Abstract)，用一句中文簡短說明研究主題及使用到的技術。
-不要衍伸摘要中沒提到的內容，請僅基於可讀的部分進行摘要。 
+不要衍伸摘要中沒提到的內容，請僅基於可讀的部分進行摘要。
 === 
 輸入: 
 [Title] Optimizing Distributed Systems with Reinforcement Learning 
